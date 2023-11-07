@@ -1,0 +1,56 @@
+//import the necessary Firebase modules in your Swift file
+
+import SwiftUI
+import Firebase
+
+@main
+struct CoreMLwithSwiftUIApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+struct ContentView: View {
+    @State private var email: String = ""
+    @State private var password: String = ""
+    
+    var body: some View {
+        VStack {
+            TextField("Email", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            SecureField("Password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            Button(action: {
+                // Call your login function here using email and password
+                signIn(email: email, password: password)
+            }) {
+                Text("Login")
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+        }
+        .padding()
+    }
+    
+    func signIn(email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                print("Error signing in: \(error.localizedDescription)")
+            } else {
+                print("User signed in successfully")
+                // Navigate to the next screen or perform necessary actions upon successful login
+            }
+        }
+    }
+}
+//when the user enters their email and password and taps the "Login" button, the signIn function is called, which authenticates the user using Firebase Authentication.
+
+// Remember to handle sign up, sign out, and other authentication flows according to your app's requirements. Also, ensure you have proper error handling and UI updates to provide feedback to the user during the authentication process.
